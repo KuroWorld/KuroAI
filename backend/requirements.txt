@@ -1,2 +1,32 @@
-fastapi
-uvicorn
+# Web Framework and API
+fastapi>=0.104.0
+uvicorn>=0.24.0
+httpx>=0.25.0  # For async HTTP client
+websockets>=12.0  # For WebSocket support
+python-multipart>=0.0.6  # For form data handling
+
+# Data Validation and Settings
+pydantic>=2.4.2
+pydantic-settings>=2.0.3
+
+# AI and Vector Operations
+numpy>=1.26.0  # For vector operations
+scipy>=1.11.3  # For vector similarity calculations
+openai>=1.3.0  # For LLM integration
+
+# Database and Storage
+aiosqlite>=0.19.0  # For async SQLite operations
+aioredis>=2.0.1  # For async Redis operations
+
+# Utilities
+python-dotenv>=1.0.0  # Environment variables
+loguru>=0.7.0  # Better logging
+jmespath>=1.0.1  # JSON querying
+tenacity>=8.2.3  # Retry mechanisms
+asyncio>=3.4.3  # For async operations
+dataclasses-json>=0.6.1  # For JSON serialization of dataclasses
+
+# Testing
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+pytest-cov>=4.1.0
