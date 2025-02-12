@@ -96,16 +96,6 @@ app.include_router(
     dependencies=[Depends(get_sim_manager)]
 )
 
-@app.get("/")
-async def root():
-    return {
-        "message": "Welcome to KuroAI Backend",
-        "simulation_status": {
-            "running": sim_manager.is_running,
-            "tick_count": sim_manager.tick_count
-        }
-    }
-
 @app.on_event("startup")
 async def startup_event():
     """Start the simulation when the app starts."""

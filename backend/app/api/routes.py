@@ -16,6 +16,17 @@ websocket_manager = SimulationWebSocket()
 
 from ..simulation.models.simulation_state import SimulationState
 
+@router.get("/")
+async def root(sim_manager: SimulationManager = Depends(get_sim_manager)):
+    """Root endpoint providing basic simulation status."""
+    return {
+        "message": "Welcome to KuroAI Backend",
+        "simulation_status": {
+            "running": sim_manager.is_running,
+            "tick_count": sim_manager.tick_count
+        }
+    }
+
 @router.get("/state", response_model=SimulationState)
 async def get_simulation_state(sim_manager: SimulationManager = Depends(get_sim_manager)) -> SimulationState:
     """Get current simulation state."""

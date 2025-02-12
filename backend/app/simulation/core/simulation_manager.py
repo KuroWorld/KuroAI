@@ -37,12 +37,12 @@ class SimulationManager:
         self.llm_manager = llm_manager
         self.event_bus = SimulationEventBus()
         
-        # Initialize world state
-        self.world_state = WorldState(
-            simulation_id=str(int(time.time())),  # Use timestamp as simulation ID
-            timestamp=time.time(),
-            started_at=time.time()
-        )
+        # Initialize or load world state
+        self.world_state = None
+        self.simulation_id = str(int(time.time()))
+        
+        # World state will be loaded in start() method
+        # If no existing state is found, a new one will be created
         
         # State tracking
         self.locations: Dict[LocationType, Set[str]] = {
@@ -233,10 +233,20 @@ class SimulationManager:
         """Start the simulation."""
         if not self.agent:
             raise ValueError("Cannot start simulation without an agent")
-            
-        # Save initial world state
-        await self.world_state.save()
-        logger.info(f"Initial world state saved with ID {self.world_state.simulation_id}")
+        
+        # Try to load existing world state
+        try:
+            self.world_state = await WorldState.get(f"world_state:{self.simulation_id}")
+            logger.info(f"Loaded existing world state with ID {self.simulation_id}")
+        except Exception as e:
+            # Create new world state if none exists
+            logger.info(f"Creating new world state with ID {self.simulation_id}")
+            self.world_state = WorldState(
+                simulation_id=self.simulation_id,
+                timestamp=time.time(),
+                started_at=time.time()
+            )
+            await self.world_state.save()
             
         self.is_running = True
         logger.info("Simulation started")
